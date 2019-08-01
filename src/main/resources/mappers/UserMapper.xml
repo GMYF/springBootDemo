@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.light.springboot.mappers.UserMapper">
+    <resultMap id="UserMap" type="User">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="phone" column="phone"/>
+<!--        <collection property="account" resultMap="com.light.springboot.domain.account.Account" />-->
+    </resultMap>
+
+    <!-- 可以将sql语句独立出来，然后引用 -->
+    <sql id="selectMap">
+        u.name, u.phone
+    </sql>
+
+    <!-- 根据id查询用户 -->
+    <select id="findById" parameterType="int" resultMap="UserMap">
+        SELECT <include refid="selectMap"/>
+        FROM  t_user u
+        WHERE id = #{id}
+        ORDER BY id ASC
+    </select>
+</mapper>
