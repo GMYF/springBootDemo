@@ -6,7 +6,6 @@
         <result property="phone" column="phone"/>
 <!--        <collection property="account" resultMap="com.light.springboot.domain.account.Account" />-->
     </resultMap>
-
     <!-- 可以将sql语句独立出来，然后引用 -->
     <sql id="selectMap">
         u.name, u.phone
@@ -19,4 +18,12 @@
         WHERE id = #{id}
         ORDER BY id ASC
     </select>
+
+    <insert id="addUser" databaseId="jira" useGeneratedKeys="true" parameterType="User" keyProperty="id">
+        insert into t_user values (#{User.name},#{User.phone})
+    </insert>
+    <insert id="syncPassWord" parameterType="Map" parameterMap="users" >
+        insert into t_user_password values (#{users.userId},#{users.password})
+    </insert>
+            
 </mapper>
