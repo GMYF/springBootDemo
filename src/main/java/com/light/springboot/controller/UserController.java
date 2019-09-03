@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.List;
@@ -36,9 +37,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseResult login(@RequestParam Map map){
+    public ResponseResult login(@RequestParam Map map, HttpServletRequest request){
         String username = StringUtils.safe2String(map.get("username"));
+        String password = StringUtils.safe2String(map.get("password"));
+        userService.login(username,password);
         ResponseResult responseResult = new ResponseResult();
+        responseResult.setMessage("保存成功");
         return responseResult;
     }
 

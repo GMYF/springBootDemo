@@ -19,11 +19,18 @@
         ORDER BY id ASC
     </select>
 
-    <insert id="addUser" databaseId="jira" useGeneratedKeys="true" parameterType="User" keyProperty="id">
-        insert into t_user values (#{User.name},#{User.phone})
-    </insert>
-    <insert id="syncPassWord" parameterType="Map" parameterMap="users" >
-        insert into t_user_password values (#{users.userId},#{users.password})
-    </insert>
+    <!-- 用户登录 -->
+    <select id="login"  resultMap="UserMap">
+        SELECT <include refid="selectMap"/>
+        FROM  t_user u left  join  t_user_password p on u.id = p.userid
+        WHERE u.name=#{userName} and p.password=#{passWord}
+    </select>
+
+<!--    <insert id="addUser" databaseId="jira" useGeneratedKeys="true" parameterType="User" keyProperty="id">-->
+<!--        insert into t_user values (#{User.name},#{User.phone})-->
+<!--    </insert>-->
+<!--    <insert id="syncPassWord" parameterType="java.util.Map" parameterMap="map" >-->
+<!--        insert into t_user_password values (#{map.userId},#{map.password})-->
+<!--    </insert>-->
             
 </mapper>
