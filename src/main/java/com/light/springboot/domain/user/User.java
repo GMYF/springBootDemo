@@ -51,10 +51,12 @@ public class User {
 
     @Override
     public String toString() {
+        String s = "\\%/g";
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
     }
+
 }

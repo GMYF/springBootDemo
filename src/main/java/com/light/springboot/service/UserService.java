@@ -26,4 +26,17 @@ public class UserService {
        userMapper.syncPassWord(users);
        return true;
     };
+
+    /**
+     * 请求登录
+     * @return
+     */
+    public Boolean login(String userName,String password){
+
+        User user = userMapper.login(userName,MD5Utils.md5Encrypt32Lower(password));
+        if (user!=null){
+            return true;
+        }
+        return false;
+    }
 }
