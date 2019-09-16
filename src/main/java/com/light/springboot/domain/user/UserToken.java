@@ -23,4 +23,7 @@ public class UserToken {
     @Getter
     @Setter
     private java.util.Date createDate;
+    @Getter
+    @Setter
+    private int total;
 }

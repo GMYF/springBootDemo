@@ -27,7 +27,9 @@ public interface UserMapper {
      * @param token
      * @param id
      */
-    void saveToken(String token, Integer id);
+    void saveToken(UserToken userToken);
 
     UserToken getToken(User user);
+
+    UserToken getUserByToken(@Param("token") String token);
 }

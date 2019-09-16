@@ -23,7 +23,7 @@ CREATE TABLE `log` (
 );
 
 /*创建密码表*/
-create table t_password(
+create table t_user_password(
    id int not null primary key auto_increment,
    t_id int not null ,
    t_password varchar(32) not null,

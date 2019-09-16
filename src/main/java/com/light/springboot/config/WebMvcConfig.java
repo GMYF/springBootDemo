@@ -68,7 +68,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 拦截配置(比如前端以api开头的请求)
         registration.addPathPatterns("/api/**");
         // 排除配置(比如前端以word开头的请求)
-        registration.excludePathPatterns("/api/word");
+        registration.excludePathPatterns("/api/user/login");
     }
 
     @Override

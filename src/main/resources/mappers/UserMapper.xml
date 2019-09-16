@@ -8,7 +8,7 @@
     </resultMap>
     <!-- 可以将sql语句独立出来，然后引用 -->
     <sql id="selectMap">
-        u.name, u.phone
+       u.id, u.name, u.phone
     </sql>
     <!--保存token-->
     <insert id="saveToken" parameterType="com.light.springboot.domain.user.UserToken">
@@ -43,12 +43,14 @@
         WHERE id = #{id}
         ORDER BY id ASC
     </select>
-
+    <select id="getUserByToken" parameterType="String" resultType="com.light.springboot.domain.user.UserToken">
+        SELECT <include refid="selectToken"/> FROM t_token where token=#{token}
+    </select>
     <!-- 用户登录 -->
     <select id="login"  resultMap="UserMap">
         SELECT <include refid="selectMap"/>
-        FROM  t_user u left  join  t_user_password p on u.id = p.userid
-        WHERE u.name=#{userName} and p.password=#{passWord}
+        FROM  t_user u left  join  t_user_password p on u.id = p.t_id
+        WHERE u.name=#{userName} and p.t_password=#{passWord}
     </select>
 
 <!--    <insert id="addUser" databaseId="jira" useGeneratedKeys="true" parameterType="User" keyProperty="id">-->
