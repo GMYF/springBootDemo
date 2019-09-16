@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.List;
@@ -27,23 +29,23 @@ public class UserController {
 
     @GetMapping("/detail/{id}")
     public ResponseResult getUserDetail(@PathVariable int id){
-        Map<String,Object> data = new HashMap<>();
-        List<Map> user = userService.findById(id);
-        if(user!=null){
-            data.put("user",user);
-        }
-        ResponseResult responseResult = new ResponseResult(data);
-        return responseResult;
+        User user = userService.findById(id);
+        return ResponseResult.success(1,user);
     }
 
     @PostMapping("/login")
-    public ResponseResult login(@RequestParam Map map, HttpServletRequest request){
+    public ResponseResult login(@RequestParam Map map, HttpServletRequest request, HttpServletResponse response){
         String username = StringUtils.safe2String(map.get("username"));
         String password = StringUtils.safe2String(map.get("password"));
-        userService.login(username,password);
-        ResponseResult responseResult = new ResponseResult();
-        responseResult.setMessage("保存成功");
-        return responseResult;
+        User user = userService.login(username,password);
+        if (user!=null){
+            HttpSession session = request.getSession();
+            session.setMaxInactiveInterval(1000*30);
+            session.setAttribute("token",user.getToken());
+            response.setHeader("token",user.getToken());
+            response.setHeader("jumpUrl","dashboard");
+        }
+        return ResponseResult.success(1,"");
     }
 
     @PostMapping("/add")

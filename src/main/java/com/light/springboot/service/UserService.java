@@ -1,8 +1,11 @@
 package com.light.springboot.service;
 
 import com.light.springboot.domain.user.User;
+import com.light.springboot.domain.user.UserToken;
 import com.light.springboot.mappers.UserMapper;
+import com.light.springboot.util.date.DateUtil;
 import com.light.springboot.util.md5.MD5Utils;
+import com.light.springboot.util.token.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,7 @@ import java.util.Map;
 public class UserService {
     @Autowired
     private UserMapper userMapper;
-    public List<Map> findById(Integer id){
+    public User findById(Integer id){
         return userMapper.findById(id);
     }
 
@@ -31,12 +34,16 @@ public class UserService {
      * 请求登录
      * @return
      */
-    public Boolean login(String userName,String password){
-
+    public User login(String userName,String password){
         User user = userMapper.login(userName,MD5Utils.md5Encrypt32Lower(password));
         if (user!=null){
-            return true;
+            //  生成token，规则以当前时间和用户名生成32位hash码
+            long date = DateUtil.getTimeLocal();
+            String token = TokenUtil.getToken(date,userName);
+            userMapper.saveToken(token,user.getId());
+            user.setToken(token);
+            return user;
         }
-        return false;
+        return null;
     }
 }

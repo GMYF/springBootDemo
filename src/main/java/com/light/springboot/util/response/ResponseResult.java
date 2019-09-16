@@ -1,12 +1,14 @@
 package com.light.springboot.util.response;
 
+import java.io.Serializable;
+
 /**
  * 返回对象封装
  * @author 李振振
  * @version 1.0
  * @date 2019/8/10 15:20
  */
-public class ResponseResult {
+public class ResponseResult implements Serializable {
     private int status;
     private String message;
     private Object data;
@@ -50,5 +52,18 @@ public class ResponseResult {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public static ResponseResult success(int code,Object data){
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setStatus(code);
+        responseResult.setData(data);
+        return responseResult;
+    }
+    public static ResponseResult failure(int code,Object data){
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setStatus(code);
+        responseResult.setData(data);
+        return responseResult;
     }
 }

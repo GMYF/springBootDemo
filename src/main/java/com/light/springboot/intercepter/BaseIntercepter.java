@@ -2,6 +2,7 @@ package com.light.springboot.intercepter;
 
 import com.light.springboot.config.WebMvcConfig;
 //import org.apache.log4j.Logger;
+import com.light.springboot.util.log.LogUtil;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,8 +20,6 @@ import javax.servlet.http.HttpSession;
  */
 @Configuration
 public class BaseIntercepter implements HandlerInterceptor {
-//    private Logger logger = Logger.getLogger(WebMvcConfig.class);
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         response.setContentType("text/html;charset=utf-8");
@@ -40,18 +39,14 @@ public class BaseIntercepter implements HandlerInterceptor {
         }else{
             // 两次请求间隔，若超过，则说明延时了，需登录
             int intervalTime = (int)((lastAccessedTime - operateTime)/1000);
-
-            if (intervalTime>20){
-//                logger.info("--请求超时，请重新登录--");
+            if (intervalTime>10){
+                LogUtil.info("--请求超时，请重新登录--");
                 // ajax请求
-                if(request.getHeader("x-requested-with")!=null){
-                    //设置response头，前台依此来判断是否session过期
-                    response.setHeader("sessionstatus", "timeout");
-                }else{
-                    // 非ajax请求
-                    // 重定向
-                    response.sendRedirect("/index.jsp");
-                }
+                // 异步请求下的重定向
+                response.addHeader("FLAG", "-1");
+                response.setHeader("SESSIONSTATUS", "TIMEOUT");
+                response.setHeader("CONTEXTPATH", php_Address);//重定向目标地址
+                response.setStatus(1000);
             }
             //更新operateTime
             session.setAttribute("operateTime",lastAccessedTime);

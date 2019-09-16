@@ -1,6 +1,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.light.springboot.mappers.UserMapper">
-    <resultMap id="UserMap" type="User">
+    <resultMap id="UserMap" type="com.light.springboot.domain.user.User">
         <id property="id" column="id" />
         <result property="name" column="name" />
         <result property="phone" column="phone"/>
@@ -10,7 +10,32 @@
     <sql id="selectMap">
         u.name, u.phone
     </sql>
-
+    <!--保存token-->
+    <insert id="saveToken" parameterType="com.light.springboot.domain.user.UserToken">
+        <selectKey keyProperty="total" resultType="int" order="BEFORE">
+            select count(*) as total from t_token where user_id = #{userId}
+        </selectKey>
+        <if test="total>0">
+            <!--更新-->
+            update t_token set token=#{token},createDate=now() where user_id=#{userId}
+        </if>
+        <if test="total==0">
+            insert into t_token(user_id,token,createDate) values(#{userId},#{token},now())
+        </if>
+    </insert>
+    <sql id="selectToken">
+        token,user_id,createDate
+    </sql>
+    <!--获取token-->
+    <select id="getToken" parameterType="com.light.springboot.domain.user.User" resultType="com.light.springboot.domain.user.UserToken">
+        select <include refid="selectToken"></include> from t_token
+        <where>
+            where  1=1
+            <if test="userId>0">
+                and userId = #{userId}
+            </if>
+        </where>
+    </select>
     <!-- 根据id查询用户 -->
     <select id="findById" parameterType="int" resultMap="UserMap">
         SELECT <include refid="selectMap"/>
