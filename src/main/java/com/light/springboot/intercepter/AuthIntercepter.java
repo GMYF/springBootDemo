@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
  * @date 2019/8/23 17:22
  */
 @Configuration
-public class BaseIntercepter implements HandlerInterceptor {
+public class AuthIntercepter implements HandlerInterceptor {
     @Resource
     private UserService userService;
 
@@ -61,7 +61,7 @@ public class BaseIntercepter implements HandlerInterceptor {
         } else {
             // 两次请求间隔，若超过，则说明延时了，需登录
             int intervalTime = (int) ((lastAccessedTime - operateTime) / 1000);
-            if (intervalTime > 10) {
+            if (intervalTime > 60*30) {
                 LogUtil.info("--请求超时，请重新登录--");
                 // ajax请求
                 // 异步请求下的重定向

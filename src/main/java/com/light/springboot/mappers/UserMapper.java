@@ -1,35 +1,25 @@
 package com.light.springboot.mappers;
 
 import com.light.springboot.domain.user.User;
-import com.light.springboot.domain.user.UserToken;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
-import java.util.Map;
-@Mapper
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
+
+@Component
 public interface UserMapper {
-    User findById(Integer id);
-    boolean addUser(User user);
-    boolean syncPassWord(Map map);
+    int deleteByPrimaryKey(@Param("host") String host, @Param("user") String user);
+
+    int insert(User record);
 
     /**
-     *
-     * @param userName
-     * @param passWord
-     * @return
+     * 用户登录
+     * @param name
+     * @param word
      */
-    User login(@Param("userName") String userName,@Param("passWord") String passWord);
+    User login(@Param("userName")String name,@Param("passWord") String word);
+    User findById(@Param("id") int id);
 
-    /**
-     * 保存token
-     * @param token
-     * @param id
-     */
-    void saveToken(UserToken userToken);
+    List<User> selectAll();
 
-    UserToken getToken(User user);
-
-    UserToken getUserByToken(@Param("token") String token);
+    int updateByPrimaryKey(User record);
 }

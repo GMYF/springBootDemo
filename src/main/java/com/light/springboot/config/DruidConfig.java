@@ -21,7 +21,7 @@ public class DruidConfig {
         // druid数据源配置
         this.dataSource = new DruidDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/jira?verifyServerCertificate=false&useSSL=false&allowPublicKeyRetrieval=true");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/jira?verifyServerCertificate=false&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8");
         dataSource.setUsername("root");
         dataSource.setPassword("009014");
         dataSource.setInitialSize(5);

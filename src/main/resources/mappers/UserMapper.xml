@@ -1,63 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.light.springboot.mappers.UserMapper">
-    <resultMap id="UserMap" type="com.light.springboot.domain.user.User">
-        <id property="id" column="id" />
-        <result property="name" column="name" />
-        <result property="phone" column="phone"/>
-<!--        <collection property="account" resultMap="com.light.springboot.domain.account.Account" />-->
+
+    <insert id="insert" parameterType="User">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into user (`name`, phone)
+        values (#{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+    </insert>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, `name`, phone
+    from user
+  </select>
+    <resultMap id="UserMap" type="User">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
     </resultMap>
     <!-- 可以将sql语句独立出来，然后引用 -->
     <sql id="selectMap">
        u.id, u.name, u.phone
     </sql>
-    <!--保存token-->
-    <insert id="saveToken" parameterType="com.light.springboot.domain.user.UserToken">
-        <selectKey keyProperty="total" resultType="int" order="BEFORE">
-            select count(*) as total from t_token where user_id = #{userId}
-        </selectKey>
-        <if test="total>0">
-            <!--更新-->
-            update t_token set token=#{token},createDate=now() where user_id=#{userId}
-        </if>
-        <if test="total==0">
-            insert into t_token(user_id,token,createDate) values(#{userId},#{token},now())
-        </if>
-    </insert>
-    <sql id="selectToken">
-        token,user_id,createDate
-    </sql>
-    <!--获取token-->
-    <select id="getToken" parameterType="com.light.springboot.domain.user.User" resultType="com.light.springboot.domain.user.UserToken">
-        select <include refid="selectToken"></include> from t_token
-        <where>
-            where  1=1
-            <if test="userId>0">
-                and userId = #{userId}
-            </if>
-        </where>
-    </select>
+
     <!-- 根据id查询用户 -->
     <select id="findById" parameterType="int" resultMap="UserMap">
-        SELECT <include refid="selectMap"/>
-        FROM  t_user u
+        SELECT
+        <include refid="selectMap"/>
+        FROM user u
         WHERE id = #{id}
-        ORDER BY id ASC
-    </select>
-    <select id="getUserByToken" parameterType="String" resultType="com.light.springboot.domain.user.UserToken">
-        SELECT <include refid="selectToken"/> FROM t_token where token=#{token}
     </select>
     <!-- 用户登录 -->
-    <select id="login"  resultMap="UserMap">
-        SELECT <include refid="selectMap"/>
-        FROM  t_user u left  join  t_user_password p on u.id = p.t_id
+    <select id="login" resultMap="UserMap">
+        SELECT
+        <include refid="selectMap"/>
+        FROM user u left join t_user_password p on u.id = p.t_id
         WHERE u.name=#{userName} and p.t_password=#{passWord}
     </select>
-
-<!--    <insert id="addUser" databaseId="jira" useGeneratedKeys="true" parameterType="User" keyProperty="id">-->
-<!--        insert into t_user values (#{User.name},#{User.phone})-->
-<!--    </insert>-->
-<!--    <insert id="syncPassWord" parameterType="java.util.Map" parameterMap="map" >-->
-<!--        insert into t_user_password values (#{map.userId},#{map.password})-->
-<!--    </insert>-->
-            
 </mapper>

@@ -1,38 +1,21 @@
 package com.light.springboot.domain.account;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 public class Account {
-
+    @Getter
+    @Setter
     private int id;
+    @Getter
+    @Setter
     private String name;
+    @Getter
+    @Setter
     private String no;
-
-    @Getter
-    public int getId() {
-        return id;
-    }
-
-    @Setter
-    public void setId(int id) {
-        this.id = id;
-    }
-    @Getter
-    public String getName() {
-        return name;
-    }
-    @Setter
-    public void setName(String name) {
-        this.name = name;
-    }
-    @Getter
-    public String getNo() {
-        return no;
-    }
-    @Setter
-    public void setNo(String no) {
-        this.no = no;
-    }
 }

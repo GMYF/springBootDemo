@@ -32,6 +32,10 @@ public class UserController {
         User user = userService.findById(id);
         return ResponseResult.success(1,user);
     }
+    @RequestMapping(value = "/test")
+    public void test(){
+        System.out.println(1 / 0);
+    }
 
     @PostMapping("/login")
     public ResponseResult login(@RequestParam Map map, HttpServletRequest request, HttpServletResponse response){

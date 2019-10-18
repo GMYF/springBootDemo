@@ -1,6 +1,6 @@
 package com.light.springboot.config;
 
-import com.light.springboot.intercepter.BaseIntercepter;
+import com.light.springboot.intercepter.AuthIntercepter;
 //import com.light.springboot.util.log.LogUtil;
 import com.light.springboot.util.log.LogUtil;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      * 自定义拦截器
      */
     @Resource
-    private BaseIntercepter intercepter ;
+    private AuthIntercepter intercepter ;
 
     @Override
     public void configurePathMatch(PathMatchConfigurer pathMatchConfigurer) {
