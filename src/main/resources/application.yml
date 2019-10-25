@@ -9,7 +9,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306/jira?verifyServerCertificate=false&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
     username: root
-    password: 009014
+    password: "009014" #这里要加引号，不然会提示报错
     driver-class-name: com.mysql.cj.jdbc.Driver
     tomcat:
       max-idle: 10

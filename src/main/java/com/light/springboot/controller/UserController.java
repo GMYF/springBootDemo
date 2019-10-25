@@ -2,8 +2,10 @@ package com.light.springboot.controller;
 
 
 import com.light.springboot.domain.user.User;
+import com.light.springboot.exception.CustomException;
 import com.light.springboot.service.UserService;
 import com.light.springboot.util.response.ResponseResult;
+import com.light.springboot.util.response.ResponseStatus;
 import com.light.springboot.util.string.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +30,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/detail/{id}")
-    public ResponseResult getUserDetail(@PathVariable int id){
+    public ResponseResult<User> getUserDetail(@PathVariable int id){
+        if (id<=0){
+            throw new CustomException(ResponseStatus.PARAMETER_FAIL.getStatus(),ResponseStatus.PARAMETER_FAIL.getMessage());
+        }
         User user = userService.findById(id);
-        return ResponseResult.success(1,user);
+        return new ResponseResult<User>(ResponseStatus.SUCCESS.getStatus(),ResponseStatus.SUCCESS.getMessage(),user);
     }
     @RequestMapping(value = "/test")
     public void test(){
@@ -49,7 +54,7 @@ public class UserController {
             response.setHeader("token",user.getToken());
             response.setHeader("jumpUrl","dashboard");
         }
-        return ResponseResult.success(1,"");
+        return new ResponseResult();
     }
 
     @PostMapping("/add")

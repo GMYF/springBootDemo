@@ -1,5 +1,8 @@
 package com.light.springboot.util.response;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
 /**
@@ -8,62 +11,44 @@ import java.io.Serializable;
  * @version 1.0
  * @date 2019/8/10 15:20
  */
-public class ResponseResult implements Serializable {
+public class ResponseResult<T> implements Serializable {
+    /**
+     * 状态
+     */
+    @Getter
+    @Setter
     private int status;
+    /**
+     * 消息
+     */
+    @Getter
+    @Setter
     private String message;
-    private Object data;
+    @Getter
+    @Setter
+    private String url;
+    /**
+     * 返回对象
+     */
+    @Getter
+    @Setter
+    private T data;
 
     public ResponseResult(){
         this.status  = ResponseStatus.SUCCESS.getStatus();
         this.message = ResponseStatus.SUCCESS.getMessage();
     }
 
-    public ResponseResult(int status,String message,Object data){
+    public ResponseResult(int status,String message,T data){
         this.status = status;
         this.message = message;
         this.data = data;
     }
 
-    public ResponseResult(Object data){
+    public ResponseResult(T data){
         this.status  = ResponseStatus.SUCCESS.getStatus();
         this.message = ResponseStatus.SUCCESS.getMessage();
         this.data = data;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    public static ResponseResult success(int code,Object data){
-        ResponseResult responseResult = new ResponseResult();
-        responseResult.setStatus(code);
-        responseResult.setData(data);
-        return responseResult;
-    }
-    public static ResponseResult failure(int code,Object data){
-        ResponseResult responseResult = new ResponseResult();
-        responseResult.setStatus(code);
-        responseResult.setData(data);
-        return responseResult;
-    }
 }

@@ -1,7 +1,6 @@
 package com.light.springboot.config;
 
 import com.light.springboot.intercepter.AuthIntercepter;
-//import com.light.springboot.util.log.LogUtil;
 import com.light.springboot.util.log.LogUtil;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;

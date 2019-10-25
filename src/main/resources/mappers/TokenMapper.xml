@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="token" jdbcType="CHAR" property="token" />
-    <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from token
@@ -17,14 +17,14 @@
     </selectKey>
     insert into token (user_id, token, createDate
       )
-    values (#{userId,jdbcType=INTEGER}, #{token,jdbcType=CHAR}, #{createdate,jdbcType=TIMESTAMP}
+    values (#{userId,jdbcType=INTEGER}, #{token,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="UserToken">
     update token
     set user_id = #{userId,jdbcType=INTEGER},
       token = #{token,jdbcType=CHAR},
-      createDate = #{createdate,jdbcType=TIMESTAMP}
+      createDate = #{createDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

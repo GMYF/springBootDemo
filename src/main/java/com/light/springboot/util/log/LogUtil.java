@@ -33,4 +33,21 @@ public class LogUtil {
         ThreadContext.put("DB_CONNECT","1");
         logger.info(">>>"+content);
     }
+
+    public static void error(String content,Exception e) {
+        Properties props = System.getProperties();
+        InetAddress address = null;
+        try {
+            address = InetAddress.getLocalHost();
+        } catch (UnknownHostException ex) {
+            logger.error("UnknownHostException",ex);
+            e.printStackTrace();
+        }
+        ThreadContext.put("TYPE","1");
+        ThreadContext.put("CREATE_TIME",new Timestamp(System.currentTimeMillis()).toString());
+        ThreadContext.put("HOST",address.getHostAddress());
+        ThreadContext.put("SYSTEM_INFO",props.getProperty("os.name")+"-"+props.getProperty("os.arch"));
+        ThreadContext.put("DB_CONNECT","1");
+        logger.error(content,e);
+    }
 }

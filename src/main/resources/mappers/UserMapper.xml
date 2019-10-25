@@ -9,7 +9,7 @@
         insert into user (`name`, phone)
         values (#{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
     </insert>
-    <select id="selectAll" resultMap="BaseResultMap">
+    <select id="selectAll" resultMap="UserMap">
     select id, `name`, phone
     from user
   </select>
@@ -34,7 +34,7 @@
     <select id="login" resultMap="UserMap">
         SELECT
         <include refid="selectMap"/>
-        FROM user u left join t_user_password p on u.id = p.t_id
+        FROM user u left join user_password p on u.id = p.t_id
         WHERE u.name=#{userName} and p.t_password=#{passWord}
     </select>
 </mapper>
