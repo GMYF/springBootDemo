@@ -4,6 +4,7 @@ package com.light.springboot.controller;
 import com.light.springboot.domain.user.User;
 import com.light.springboot.exception.CustomException;
 import com.light.springboot.service.UserService;
+import com.light.springboot.util.info.CodeMsg;
 import com.light.springboot.util.response.ResponseResult;
 import com.light.springboot.util.response.ResponseStatus;
 import com.light.springboot.util.string.StringUtils;
@@ -32,10 +33,10 @@ public class UserController {
     @GetMapping("/detail/{id}")
     public ResponseResult<User> getUserDetail(@PathVariable int id){
         if (id<=0){
-            throw new CustomException(ResponseStatus.PARAMETER_FAIL.getStatus(),ResponseStatus.PARAMETER_FAIL.getMessage());
+            throw new CustomException(CodeMsg.USER_ID);
         }
         User user = userService.findById(id);
-        return new ResponseResult<User>(ResponseStatus.SUCCESS.getStatus(),ResponseStatus.SUCCESS.getMessage(),user);
+        return ResponseResult.success(user);
     }
     @RequestMapping(value = "/test")
     public void test(){

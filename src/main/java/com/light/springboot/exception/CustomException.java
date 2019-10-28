@@ -1,5 +1,6 @@
 package com.light.springboot.exception;
 
+import com.light.springboot.util.info.CodeMsg;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,15 +10,15 @@ import lombok.Setter;
  * @date 2019/10/25 17:55
  */
 public class CustomException extends RuntimeException {
-    @Getter
-    @Setter
-    private int status;
-    @Getter
-    @Setter
-    private String msg;
 
-    public CustomException(int status, String msg) {
-        this.status = status;
-        this.msg = msg;
+    private static final long serialVersionUID = 1L;
+
+    @Getter
+    @Setter
+    private CodeMsg codeMsg;
+
+    public CustomException(CodeMsg codeMsg) {
+        super(codeMsg.toString());
+        this.codeMsg = codeMsg;
     }
 }

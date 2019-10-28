@@ -3,8 +3,10 @@ package com.light.springboot.intercepter;
 import com.light.springboot.config.WebMvcConfig;
 //import org.apache.log4j.Logger;
 import com.light.springboot.domain.user.UserToken;
+import com.light.springboot.exception.CustomException;
 import com.light.springboot.service.UserService;
 import com.light.springboot.util.email.EmailUtil;
+import com.light.springboot.util.info.CodeMsg;
 import com.light.springboot.util.json.JsonUtil;
 import com.light.springboot.util.log.LogUtil;
 import com.light.springboot.util.string.StringUtils;
@@ -57,7 +59,7 @@ public class AuthIntercepter implements HandlerInterceptor {
             //重定向目标地址
             response.setHeader("CONTEXTPATH", "register");
             response.setStatus(2000);
-            return false;
+            throw new CustomException(CodeMsg.USER_ERROR);
         }
         if (operateTime == null) {
             // 初始化
