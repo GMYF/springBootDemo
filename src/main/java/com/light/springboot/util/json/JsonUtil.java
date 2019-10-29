@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 public class JsonUtil {
     public static void renderJson(int code, String msg, HttpServletResponse response){
         ResponseResult responseResult = new ResponseResult();
-        responseResult.setStatus(code);
+        responseResult.setCode(code);
         responseResult.setMessage(msg);
         responseContent(response, JSON.toJSONString(responseResult));
     }

@@ -38,7 +38,6 @@ public class AuthIntercepter implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-        response.setContentType("text/html;charset=utf-8");
         HttpSession session = request.getSession(true);
         //session持续时间
         int maxInactiveInteval = session.getMaxInactiveInterval();
@@ -52,14 +51,14 @@ public class AuthIntercepter implements HandlerInterceptor {
         String token = StringUtils.safe2String(session.getAttribute("token"));
         UserToken userToken = userService.getUserByToken(token);
         if (userToken == null) {
-            LogUtil.info("--用户不存在，请注册--");
+            LogUtil.info("--请先登录后操作！--");
             // ajax请求
             // 跳转注册页面
-            response.addHeader("FLAG", "2");
-            //重定向目标地址
-            response.setHeader("CONTEXTPATH", "register");
-            response.setStatus(2000);
-            throw new CustomException(CodeMsg.USER_ERROR);
+//            response.addHeader("FLAG", "2");
+//            //重定向目标地址
+//            response.setHeader("CONTEXTPATH", "register");
+//            response.setStatus(2000);
+            throw new CustomException(CodeMsg.LOGIN_ERROR);
         }
         if (operateTime == null) {
             // 初始化
@@ -68,20 +67,20 @@ public class AuthIntercepter implements HandlerInterceptor {
         } else {
             // 两次请求间隔，若超过，则说明延时了，需登录
             int intervalTime = (int) ((lastAccessedTime - operateTime) / 1000);
-            if (intervalTime > 60 * 30) {
+            if (intervalTime > 30) {
                 LogUtil.info("--请求超时，请重新登录--");
                 // ajax请求
                 // 异步请求下的重定向
-                response.addHeader("FLAG", "-1");
-                response.setHeader("SESSIONSTATUS", "TIMEOUT");
-                //重定向目标地址
-                response.setHeader("CONTEXTPATH", "dashboard");
-                response.setHeader("Access-Control-Expose-Headers", "SESSIONSTATUS, CONTEXTPATH,FLAG");
-                response.setStatus(1000);
-                JsonUtil.renderJson(1000, "请求超时，请重新登录", response);
+//                response.addHeader("FLAG", "-1");
+//                response.setHeader("SESSIONSTATUS", "TIMEOUT");
+//                //重定向目标地址
+//                response.setHeader("CONTEXTPATH", "dashboard");
+//                response.setHeader("Access-Control-Expose-Headers", "SESSIONSTATUS, CONTEXTPATH,FLAG");
+//                response.setStatus(1000);
+//                JsonUtil.renderJson(1000, "请求超时，请重新登录", response);
                 //更新operateTime
                 session.setAttribute("operateTime", lastAccessedTime);
-                return false;
+                throw new CustomException(CodeMsg.SESSION_ERROR);
             }
             return  true;
         }

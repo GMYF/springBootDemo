@@ -33,7 +33,7 @@ public class UserController {
     @GetMapping("/detail/{id}")
     public ResponseResult<User> getUserDetail(@PathVariable int id){
         if (id<=0){
-            throw new CustomException(CodeMsg.USER_ID);
+            throw new CustomException(CodeMsg.USER_NO_ID);
         }
         User user = userService.findById(id);
         return ResponseResult.success(user);
@@ -52,8 +52,6 @@ public class UserController {
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(1000*30);
             session.setAttribute("token",user.getToken());
-            response.setHeader("token",user.getToken());
-            response.setHeader("jumpUrl","dashboard");
         }
         return new ResponseResult();
     }

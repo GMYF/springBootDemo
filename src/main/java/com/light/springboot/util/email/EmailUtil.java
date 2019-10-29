@@ -82,7 +82,7 @@ public final class EmailUtil  implements Serializable {
 
         //  创建 session对象，包含了
         Session session = Session.getInstance(properties,new DefaultAuthenticator(emailUtil.sender,emailUtil.passWord));
-        session.setDebug(true);
+        session.setDebug(false);
         return session;
     }
 

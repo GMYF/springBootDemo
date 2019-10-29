@@ -19,7 +19,7 @@ public class ResponseResult<T> implements Serializable {
      */
     @Getter
     @Setter
-    private int status;
+    private int code;
     /**
      * 消息
      */
@@ -37,18 +37,18 @@ public class ResponseResult<T> implements Serializable {
     private T data;
 
     public ResponseResult() {
-        this.status = ResponseStatus.SUCCESS.getStatus();
+        this.code = ResponseStatus.SUCCESS.getCode();
         this.message = ResponseStatus.SUCCESS.getMessage();
     }
 
-    public ResponseResult(int status, String message, T data) {
-        this.status = status;
+    public ResponseResult(int code, String message, T data) {
+        this.code = code;
         this.message = message;
         this.data = data;
     }
 
     public ResponseResult(T data) {
-        this.status = ResponseStatus.SUCCESS.getStatus();
+        this.code = ResponseStatus.SUCCESS.getCode();
         this.message = ResponseStatus.SUCCESS.getMessage();
         this.data = data;
     }
@@ -57,7 +57,7 @@ public class ResponseResult<T> implements Serializable {
         if (cm == null) {
             return;
         }
-        this.status = cm.getCode();
+        this.code = cm.getCode();
         this.message = cm.getMsg();
         this.url = cm.getUrl();
     }

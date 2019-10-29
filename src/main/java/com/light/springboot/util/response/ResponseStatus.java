@@ -18,17 +18,17 @@ public enum ResponseStatus {
     REQUEST_FAIL("请求失败",100),
     PARAMETER_FAIL("请求参数有误",200);
     private String message;
-    private int status;
-    ResponseStatus(String message,int status){
+    private int code;
+    ResponseStatus(String message,int code){
         this.message = message;
-        this.status =status;
+        this.code =code;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public int getStatus() {
-        return status;
+    public int getCode() {
+        return code;
     }
 }

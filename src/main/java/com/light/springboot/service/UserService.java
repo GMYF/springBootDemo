@@ -2,8 +2,8 @@ package com.light.springboot.service;
 
 import com.light.springboot.domain.user.User;
 import com.light.springboot.domain.user.UserToken;
-import com.light.springboot.mappers.TokenMapper;
-import com.light.springboot.mappers.UserMapper;
+import com.light.springboot.dao.TokenDao;
+import com.light.springboot.dao.UserDao;
 import com.light.springboot.util.date.DateUtil;
 import com.light.springboot.util.md5.MD5Utils;
 import com.light.springboot.util.token.TokenUtil;
@@ -20,10 +20,10 @@ import java.util.Map;
 @Service
 public class UserService {
     @Autowired
-    private UserMapper userMapper;
+    private UserDao userMapper;
 
     @Autowired
-    private TokenMapper tokenMapper;
+    private TokenDao tokenMapper;
 
     public User findById(Integer id) {
         return userMapper.findById(id);

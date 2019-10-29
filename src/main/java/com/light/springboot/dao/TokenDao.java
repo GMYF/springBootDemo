@@ -1,4 +1,4 @@
-package com.light.springboot.mappers;
+package com.light.springboot.dao;
 
 import com.light.springboot.domain.user.UserToken;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import java.util.List;
  * @author lzz
  */
 @Component
-public interface TokenMapper {
+public interface TokenDao {
     int deleteByPrimaryKey(Integer id);
 
     int insert(UserToken record);

@@ -6,6 +6,7 @@ import com.light.springboot.util.info.CodeMsg;
 import com.light.springboot.util.log.LogUtil;
 import com.light.springboot.util.response.ResponseResult;
 import com.light.springboot.util.response.ResponseStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,7 +22,8 @@ import java.util.List;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
+    @Autowired
+    private
     @ExceptionHandler(Exception.class)
     public ResponseResult exceptionHandler(Exception e, HttpServletRequest request) {
         if (e instanceof JSONException) {
@@ -29,7 +31,7 @@ public class GlobalExceptionHandler {
             LogUtil.info(String.format("请求报错: url[%s]; msg[%s]", request.getRequestURL(), e.getMessage()));
             ResponseResult<String> res = new ResponseResult<>();
             res.setMessage(e.getMessage());
-            res.setStatus(ResponseStatus.REQUEST_FAIL.getStatus());
+            res.setCode(ResponseStatus.REQUEST_FAIL.getCode());
             return res;
         }else if(e instanceof BindException) {
             // 绑定异常
@@ -44,6 +46,7 @@ public class GlobalExceptionHandler {
             return ResponseResult.error(customException.getCodeMsg());
         } else {
             // 默认异常， 系统异常
+
             return ResponseResult.error(CodeMsg.SERVER_ERROR);
         }
     }

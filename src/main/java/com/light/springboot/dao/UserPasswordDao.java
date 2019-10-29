@@ -1,9 +1,9 @@
-package com.light.springboot.mappers;
+package com.light.springboot.dao;
 
 import com.light.springboot.domain.user.UserPassword;
 import java.util.List;
 
-public interface UserPasswordMapper {
+public interface UserPasswordDao {
     int deleteByPrimaryKey(Integer id);
 
     int insert(UserPassword record);

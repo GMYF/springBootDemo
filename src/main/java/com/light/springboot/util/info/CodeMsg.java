@@ -31,8 +31,8 @@ public class CodeMsg {
     public static CodeMsg STUDENTID_ERROR = new CodeMsg(500213, "学号格式错误");
     public static CodeMsg STUDENTIDE_NOT_EXIST = new CodeMsg(500214, "学号不存在");
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(500215, "密码错误");
-    public static CodeMsg USER_ID = new CodeMsg(500215, "用户id不存在");
-    public static CodeMsg USER_ERROR = new CodeMsg(500215, "token失效,请先登录!");
+    public static CodeMsg USER_NO_ID = new CodeMsg(500216, "用户id不存在");
+    public static CodeMsg LOGIN_ERROR = new CodeMsg(500217, "token失效,请先登录!");
 
 
 

@@ -1,4 +1,4 @@
-package com.light.springboot.mappers;
+package com.light.springboot.dao;
 
 import com.light.springboot.domain.user.User;
 import java.util.List;
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface UserMapper {
+public interface UserDao {
     int deleteByPrimaryKey(@Param("host") String host, @Param("user") String user);
 
     int insert(User record);
