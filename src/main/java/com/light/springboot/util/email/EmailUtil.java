@@ -82,19 +82,27 @@ public final class EmailUtil  implements Serializable {
 
         //  创建 session对象，包含了
         Session session = Session.getInstance(properties,new DefaultAuthenticator(emailUtil.sender,emailUtil.passWord));
-        session.setDebug(true);
+        session.setDebug(false);
         return session;
     }
 
     public void sendEmail(EmailUtil emailUtil) throws NoSuchProviderException,MessagingException{
-        Session session = getSession(emailUtil);
-        Message message = getMessage(emailUtil,session);
-        Transport transport = session.getTransport();
-        transport.connect(emailUtil.sender,emailUtil.passWord);
-//        Transport transport = new SMTPTransport(session, urlName);
-        transport.sendMessage(message,message.getAllRecipients());
-        // 关闭链接
-        transport.close();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Session session = getSession(emailUtil);
+                    Message message = getMessage(emailUtil,session);
+                    Transport transport = session.getTransport();
+                    transport.connect(emailUtil.sender,emailUtil.passWord);
+                    transport.sendMessage(message,message.getAllRecipients());
+                    // 关闭链接
+                    transport.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public static void main(String[] args) {

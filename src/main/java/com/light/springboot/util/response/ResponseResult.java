@@ -1,69 +1,79 @@
 package com.light.springboot.util.response;
 
+import com.light.springboot.util.info.CodeMsg;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
 /**
  * 返回对象封装
+ *
  * @author 李振振
  * @version 1.0
  * @date 2019/8/10 15:20
  */
-public class ResponseResult implements Serializable {
-    private int status;
+public class ResponseResult<T> implements Serializable {
+    /**
+     * 状态
+     */
+    @Getter
+    @Setter
+    private int code;
+    /**
+     * 消息
+     */
+    @Getter
+    @Setter
     private String message;
-    private Object data;
+    @Getter
+    @Setter
+    private String url;
+    /**
+     * 返回对象
+     */
+    @Getter
+    @Setter
+    private T data;
 
-    public ResponseResult(){
-        this.status  = ResponseStatus.SUCCESS.getStatus();
+    public ResponseResult() {
+        this.code = ResponseStatus.SUCCESS.getCode();
         this.message = ResponseStatus.SUCCESS.getMessage();
     }
 
-    public ResponseResult(int status,String message,Object data){
-        this.status = status;
+    public ResponseResult(int code, String message, T data) {
+        this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public ResponseResult(Object data){
-        this.status  = ResponseStatus.SUCCESS.getStatus();
+    public ResponseResult(T data) {
+        this.code = ResponseStatus.SUCCESS.getCode();
         this.message = ResponseStatus.SUCCESS.getMessage();
         this.data = data;
     }
 
-    public int getStatus() {
-        return status;
+    private ResponseResult(CodeMsg cm) {
+        if (cm == null) {
+            return;
+        }
+        this.code = cm.getCode();
+        this.message = cm.getMsg();
+        this.url = cm.getUrl();
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    /**
+     * 请求成功时调用
+     *
+     * @param data
+     * @return
+     */
+    public static <T> ResponseResult<T> success(T data) {
+        return new ResponseResult<T>(data);
     }
 
-    public String getMessage() {
-        return message;
+    public static <T> ResponseResult<T> error(CodeMsg cm) {
+        return new ResponseResult<T>(cm);
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    public static ResponseResult success(int code,Object data){
-        ResponseResult responseResult = new ResponseResult();
-        responseResult.setStatus(code);
-        responseResult.setData(data);
-        return responseResult;
-    }
-    public static ResponseResult failure(int code,Object data){
-        ResponseResult responseResult = new ResponseResult();
-        responseResult.setStatus(code);
-        responseResult.setData(data);
-        return responseResult;
-    }
 }

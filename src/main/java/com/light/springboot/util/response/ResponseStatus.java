@@ -6,20 +6,29 @@ package com.light.springboot.util.response;
  * @date 2019/8/10 15:23
  */
 public enum ResponseStatus {
+    /**
+     * 成功
+     */
     SUCCESS("成功",1),
-    FAIL("失败",2);
+    /**
+     * 失败
+     */
+    FAIL("失败",2),
+
+    REQUEST_FAIL("请求失败",100),
+    PARAMETER_FAIL("请求参数有误",200);
     private String message;
-    private int status;
-    ResponseStatus(String message,int status){
+    private int code;
+    ResponseStatus(String message,int code){
         this.message = message;
-        this.status =status;
+        this.code =code;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public int getStatus() {
-        return status;
+    public int getCode() {
+        return code;
     }
 }

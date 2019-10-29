@@ -16,14 +16,14 @@ CREATE TABLE `log` (
 /**
  用户表
  */
- create table t_user(
+ create table user(
  id int not null primary key auto_increment,
  name varchar(20) null default null,
  phone varchar(11) null default  null
 );
 
 /*创建密码表*/
-create table t_user_password(
+create table user_password(
    id int not null primary key auto_increment,
    t_id int not null ,
    t_password varchar(32) not null,
@@ -31,7 +31,7 @@ create table t_user_password(
 )
 
 /*创建token表*/
-create table t_token(
+create table token(
  id  int primary  key not null auto_increment,
  user_id int not null ,
  token char(32),

@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/dashboard")
+@RequestMapping(value = "/api/dashboard")
 public class DashBoardController {
 
     @GetMapping("/index")
     public String directPage() {
+        System.out.println(1 / 0);
         return "index";
     }
 }
