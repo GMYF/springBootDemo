@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.light.springboot.dao.EmailDao">
+  <resultMap id="EmailMap" type="Email">
+    <result column="receiver" jdbcType="CHAR" property="receiver" />
+    <result column="copyReceiver" jdbcType="CHAR" property="copyReceiver" />
+    <result column="sender" jdbcType="CHAR" property="sender" />
+    <result column="subject" jdbcType="CHAR" property="subject" />
+    <result column="content" jdbcType="CHAR" property="content" />
+  </resultMap>
+
+  <insert id="saveMsg" parameterType="Email">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into msg_push (config_id, STATUS, receiver,copyReceiver,subject,content,createtime
+      )
+    values (#{emailConfig.id,jdbcType=INTEGER},0, #{receiver,jdbcType=CHAR}, #{copyReceiver,jdbcType=CHAR},
+    #{subject,jdbcType=CHAR},#{content,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <resultMap id="EmailConfigMap" type="EmailConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="HOST" jdbcType="CHAR" property="host" />
+    <result column="sender" jdbcType="CHAR" property="sender" />
+    <result column="PASSWORD" jdbcType="CHAR" property="passWord" />
+    <result column="LEVEL" jdbcType="INTEGER" property="level" />
+  </resultMap>
+
+  <sql id="selectEmailConfig">
+        id,HOST,sender,PASSWORD,LEVEL
+  </sql>
+
+  <sql id="selectEmail">
+        sender,receiver,copyReceiver,subject,content
+  </sql>
+
+  <select id="getEmailConfig" parameterType="Integer" resultMap="EmailConfigMap">
+    select  <include refid="selectEmailConfig"/> from msg_config where 1=1
+    <if test="level!=null">
+       and LEVEL = #{level,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="syncMsg" resultMap="EmailMap">
+    select <include refid="selectEmail"/> from msg_push a left join msg_config b on a.config_id=b.id  where a.STATUS=0;
+  </select>
+
+  <update id="updateMsgStatus" parameterType="Email" >
+    update msg_push set STATUS= 1 where id= #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

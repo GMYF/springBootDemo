@@ -102,16 +102,16 @@ public class AuthIntercepter implements HandlerInterceptor {
 //        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST, PUT, DELETE");
 //        response.setHeader("Access-Control-Allow-Origin", "*");
 //        response.setHeader("Access-Control-Max-Age", "3600");
-        LogUtil.info("异常拦截处理完毕！！");
-        System.out.println("异常拦截处理完毕！！");
-        if (e != null) {
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw, true));
-            List<String> receiverList = new ArrayList<>();
-            receiverList.add("985247092@qq.com");
-            EmailUtil emailUtil = EmailUtil.getInstance("15207170458@163.com", "haolz9014", receiverList, null, "系统报错：\r\n错误信息为：" + sw.toString(), "SpringBootDemo");
-            // 发件邮箱开启了授权码验证，所以这里的密码就是授权码（haolz9014）,原密码为"apurelove9014"
-            emailUtil.sendEmail(emailUtil);
-        }
+//        LogUtil.info("异常拦截处理完毕！！");
+//        System.out.println("异常拦截处理完毕！！");
+//        if (e != null) {
+//            StringWriter sw = new StringWriter();
+//            e.printStackTrace(new PrintWriter(sw, true));
+//            List<String> receiverList = new ArrayList<>();
+//            receiverList.add("985247092@qq.com");
+//            EmailUtil emailUtil = EmailUtil.getInstance("15207170458@163.com", "haolz9014", receiverList, null, "系统报错：\r\n错误信息为：" + sw.toString(), "SpringBootDemo");
+//            // 发件邮箱开启了授权码验证，所以这里的密码就是授权码（haolz9014）,原密码为"apurelove9014"
+//            emailUtil.sendEmail(emailUtil);
+//        }
     }
 }

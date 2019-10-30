@@ -35,6 +35,7 @@ public class UserController {
         if (id<=0){
             throw new CustomException(CodeMsg.USER_NO_ID);
         }
+        System.out.println(1 / 0);
         User user = userService.findById(id);
         return ResponseResult.success(user);
     }
