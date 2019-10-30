@@ -37,3 +37,22 @@ create table token(
  token char(32),
  createDate timestamp
 )
+/*邮件推送表*/
+CREATE TABLE msg_push(
+ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+ config_id INT COMMENT '邮件配置表',
+ STATUS INT(1) COMMENT '0:未发送;1:已发送',
+ receiver VARCHAR(300) COMMENT '接收方，以json格式储存',
+ copyReceiver VARCHAR(300) COMMENT '抄送方，以json格式储存',
+ subject VARCHAR(300) COMMENT '主题',
+ content LONGTEXT COMMENT '正文',
+ createTime TIMESTAMP COMMENT '创建时间'
+)
+/*邮件配置表*/
+CREATE TABLE msg_config(
+ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+ HOST VARCHAR(50) COMMENT '发送主机host',
+ sender VARCHAR(50) COMMENT '发送方',
+ PASSWORD VARCHAR(50) COMMENT '密码',
+ LEVEL INT(1) DEFAULT 0 COMMENT '级别，默认为0'
+)

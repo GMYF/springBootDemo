@@ -3,6 +3,7 @@ package com.light.springboot.domain.email;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -13,29 +14,26 @@ import java.util.List;
 public class Email {
     @Setter
     @Getter
-    private  String host ;
+    private int id;
     @Setter
     @Getter
-    private List<String> receiver;
+    private String receiver;
     @Setter
     @Getter
-    private  List<String> copyReceiver;
+    private String copyReceiver;
     @Setter
     @Getter
-    private  String sender;
+    private String subject;
     @Setter
     @Getter
-    private  String passWord;
+    private String content;
     @Setter
     @Getter
-    private  String subject;
+    private Date createTime;
     @Setter
     @Getter
-    private  int port;
+    private int status;
     @Setter
     @Getter
-    private  String content;
-    @Setter
-    @Getter
-    private  String protocol;
+    private EmailConfig emailConfig;
 }
