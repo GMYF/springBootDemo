@@ -2,11 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.light.springboot.dao.EmailDao">
   <resultMap id="EmailMap" type="Email">
+    <result column="id" jdbcType="CHAR" property="id" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
     <result column="receiver" jdbcType="CHAR" property="receiver" />
     <result column="copyReceiver" jdbcType="CHAR" property="copyReceiver" />
-    <result column="sender" jdbcType="CHAR" property="sender" />
     <result column="subject" jdbcType="CHAR" property="subject" />
     <result column="content" jdbcType="CHAR" property="content" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <!-- 多对一或者一对一集合映射 , property对应映射实体pojo的属性值, javaType对应的是该pojo对象-->
+    <association property="emailConfig" javaType="EmailConfig">
+      <result column="sender" property="sender" jdbcType="CHAR"/>
+      <result column="host" property="host" jdbcType="CHAR"/>
+      <result column="PASSWORD" property="passWord" jdbcType="CHAR"/>
+    </association>
+<!--    <collection property="emailConfig" ofType="EmailConfig" />-->
   </resultMap>
 
   <insert id="saveMsg" parameterType="Email">
@@ -33,7 +42,7 @@
   </sql>
 
   <sql id="selectEmail">
-        sender,receiver,copyReceiver,subject,content
+       sender,receiver,copyReceiver,subject,content,host,PASSWORD
   </sql>
 
   <select id="getEmailConfig" parameterType="Integer" resultMap="EmailConfigMap">
@@ -43,7 +52,7 @@
     </if>
   </select>
   <select id="syncMsg" resultMap="EmailMap">
-    select <include refid="selectEmail"/> from msg_push a left join msg_config b on a.config_id=b.id  where a.STATUS=0;
+    select a.id , <include refid="selectEmail"/> from msg_push a left join msg_config b on a.config_id=b.id  where a.STATUS=0;
   </select>
 
   <update id="updateMsgStatus" parameterType="Email" >
