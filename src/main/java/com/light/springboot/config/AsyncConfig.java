@@ -3,8 +3,9 @@ package com.light.springboot.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-
+import org.springframework.scheduling.annotation.SchedulingConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import java.util.concurrent.Executor;
 
 /**
@@ -17,17 +18,24 @@ import java.util.concurrent.Executor;
  */
 @Configuration
 @EnableAsync
-public class AsyncConfig {
-    private static final int CORE_POOL_SIZE = 10;
-    private static final int MAX_POOL_SIZE = 30;
-    private static final int QUEUE_CAPACITY = 10;
-
-    @Bean
+public class AsyncConfig  implements SchedulingConfigurer {
+    /**
+     * 配置定时任务执行线程池类
+     * @return
+     */
+    @Bean(name = "scheduler")
     public Executor taskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(CORE_POOL_SIZE);
-        executor.setMaxPoolSize(MAX_POOL_SIZE);
-        executor.setQueueCapacity(QUEUE_CAPACITY);
+        ThreadPoolTaskScheduler executor = new ThreadPoolTaskScheduler();
+        executor.setPoolSize(20);
         return executor;
+    }
+
+    /**
+     * 配置执行计划，使用线程池
+     * @param scheduledTaskRegistrar
+     */
+    @Override
+    public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
+        scheduledTaskRegistrar.setScheduler(taskExecutor());
     }
 }
