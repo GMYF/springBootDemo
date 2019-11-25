@@ -1,8 +1,10 @@
 package com.light.springboot.dao;
 
 import com.light.springboot.domain.user.UserPassword;
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+@Repository
 public interface UserPasswordDao {
     int deleteByPrimaryKey(Integer id);
 

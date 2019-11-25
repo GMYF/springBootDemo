@@ -6,6 +6,8 @@ import com.light.springboot.service.common.EmailService;
 import com.light.springboot.util.bean.SpringContextUtil;
 import com.light.springboot.util.email.EmailUtil;
 import com.light.springboot.util.log.LogUtil;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,14 @@ import java.util.List;
 @Component
 @Slf4j
 public class ScheduleTask implements DisposableBean {
-    @Autowired
+
     private EmailService emailService;
+
+    @Autowired
+    public ScheduleTask(EmailService emailService) {
+        this.emailService = emailService;
+    }
+
     /**
      * Async 表示在异步任务池中
      * 定义每5秒执行该任务

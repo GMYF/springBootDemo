@@ -5,6 +5,7 @@ import com.light.springboot.domain.email.EmailConfig;
 import com.light.springboot.util.email.EmailUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @version 1.0
  * @date 2019/10/29 17:19
  */
-@Component
+@Repository
 public interface EmailDao {
     /**
      * 保存邮件消息

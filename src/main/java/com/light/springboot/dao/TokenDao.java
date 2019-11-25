@@ -2,13 +2,14 @@ package com.light.springboot.dao;
 
 import com.light.springboot.domain.user.UserToken;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * @author lzz
  */
-@Component
+@Repository
 public interface TokenDao {
     int deleteByPrimaryKey(Integer id);
 
