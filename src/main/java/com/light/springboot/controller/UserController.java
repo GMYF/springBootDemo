@@ -76,11 +76,10 @@ public class UserController {
     }
 
     @PostMapping("/file")
-    public ResponseResult addFile(MultipartFile file, HttpServletRequest request) {
-        MultipartHttpServletRequest multipartRequest=(MultipartHttpServletRequest) request;
+    public ResponseResult addFile(@RequestParam("file") MultipartFile file) {
         //file是form-data中二进制字段对应的name
-        MultipartFile multipartFile = multipartRequest.getFile("file");
-        System.out.println(multipartFile.toString());
+        System.out.println(file);
+        file.getInputStream();
         return new ResponseResult();
     }
 }

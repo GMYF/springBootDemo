@@ -1,4 +1,13 @@
+application:
+  version: 1.0.0
+  profile: D://profile
+  upload: /upload/**
 spring:
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+      enabled: true
   profiles:
     active: dev
   mvc:
@@ -16,7 +25,6 @@ spring:
       max-wait: 10000
       min-idle: 5
       initial-size: 5
-
 mybatis:
   mapper-locations: classpath*:mappers/**/*.xml
   type-aliases-package: com.light.springboot
@@ -24,4 +32,5 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 logging:
-  level: debug
+  level:
+    com.light.springboot: debug

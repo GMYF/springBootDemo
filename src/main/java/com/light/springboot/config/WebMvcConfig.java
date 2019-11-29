@@ -1,7 +1,10 @@
 package com.light.springboot.config;
 
+import com.light.springboot.domain.email.Email;
 import com.light.springboot.intercepter.AuthIntercepter;
 import com.light.springboot.util.log.LogUtil;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -13,7 +16,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
+import javax.servlet.MultipartConfigElement;
 
 /**
  * @author 李振振
@@ -28,30 +31,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Resource
     private AuthIntercepter intercepter ;
 
-    @Override
-    public void configurePathMatch(PathMatchConfigurer pathMatchConfigurer) {
-
-    }
-
-    @Override
-    public void configureContentNegotiation(ContentNegotiationConfigurer contentNegotiationConfigurer) {
-
-    }
-
-    @Override
-    public void configureAsyncSupport(AsyncSupportConfigurer asyncSupportConfigurer) {
-
-    }
-
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer defaultServletHandlerConfigurer) {
-
-    }
-
-    @Override
-    public void addFormatters(FormatterRegistry formatterRegistry) {
-
-    }
+    @Resource
+    private FileConfig fileConfig;
 
     /**
      * 1:创建自己的Interceptor
@@ -70,63 +51,23 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registration.excludePathPatterns("/api/user/login");
     }
 
+    /**
+     * 设置静态文件匹配路径
+     * @param resourceHandlerRegistry
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry) {
-
+        resourceHandlerRegistry.addResourceHandler(fileConfig.getUpload()).addResourceLocations("file:"+fileConfig.getProfile());
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry corsRegistry) {
-
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry viewControllerRegistry) {
-
-    }
-
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry viewResolverRegistry) {
-
-    }
-
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> list) {
-
-    }
-
-    @Override
-    public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> list) {
-
-    }
-
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> list) {
-
-    }
-
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> list) {
-
-    }
-
-    @Override
-    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> list) {
-
-    }
-
-    @Override
-    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> list) {
-
-    }
-
-    @Override
-    public Validator getValidator() {
-        return null;
-    }
-
-    @Override
-    public MessageCodesResolver getMessageCodesResolver() {
-        return null;
+    /**
+     * 设置文件存放路径
+     * @return
+     */
+    @Bean
+    MultipartConfigElement multipartConfigElement (){
+        MultipartConfigFactory factory  = new MultipartConfigFactory();
+        factory.setLocation(fileConfig.getProfile());
+        return factory.createMultipartConfig();
     }
 }
