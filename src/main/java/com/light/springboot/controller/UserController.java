@@ -5,6 +5,7 @@ import com.light.springboot.domain.user.User;
 import com.light.springboot.exception.CustomException;
 import com.light.springboot.service.UserService;
 import com.light.springboot.util.info.CodeMsg;
+import com.light.springboot.util.io.IoUtils;
 import com.light.springboot.util.response.ResponseResult;
 import com.light.springboot.util.response.ResponseStatus;
 import com.light.springboot.util.string.StringUtils;
@@ -79,7 +80,11 @@ public class UserController {
     public ResponseResult addFile(@RequestParam("file") MultipartFile file) {
         //file是form-data中二进制字段对应的name
         System.out.println(file);
-        file.getInputStream();
+        try {
+            IoUtils.readFile(file.getInputStream(),file.getName(),file.getContentType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return new ResponseResult();
     }
 }
