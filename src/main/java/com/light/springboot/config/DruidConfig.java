@@ -7,9 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import java.sql.Connection;
 
 /**
- * @author 李振振
- * @version 1.0
- * @date 2019/9/3 16:40
+ * 〈一句话功能简述〉
+ *
+ * <p>〈功能详细描述〉
+ *
+ * @author lzz
+ * @since 版本号
  */
 public class DruidConfig {
 
@@ -22,7 +25,7 @@ public class DruidConfig {
         this.dataSource = new DruidDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/jira?verifyServerCertificate=false&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8");
-        dataSource.setUsername("root");
+        dataSource.setUsername("gmyf");
         dataSource.setPassword("009014");
         dataSource.setInitialSize(5);
         dataSource.setMinIdle(5);

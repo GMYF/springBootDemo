@@ -33,4 +33,8 @@ public class JsonUtil {
             e.printStackTrace();
         }
     }
+
+    public static String toString(Object object){
+        return JSON.toJSONString(object);
+    }
 }

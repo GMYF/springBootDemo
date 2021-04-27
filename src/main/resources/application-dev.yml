@@ -1,6 +1,4 @@
 server:
   port: 8082
-  session:
-    timeout: 1
   tomcat:
     uri-encoding: utf-8

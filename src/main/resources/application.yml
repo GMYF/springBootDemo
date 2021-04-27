@@ -3,6 +3,17 @@ application:
   profile: D://profile
   upload: /upload/**
 spring:
+  redis:
+    host: 192.168.91.16
+    port: 6379
+    lettuce:
+      pool:
+        max-wait: 16
+        max-active: 16
+        max-idle: 16
+        min-idle: 1
+      shutdown-timeout: 10000ms
+    database: 0
   servlet:
     multipart:
       max-file-size: 30MB
@@ -10,14 +21,10 @@ spring:
       enabled: true
   profiles:
     active: dev
-  mvc:
-    view:
-      prefix: /pages/
-      suffix: .jsp
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306/jira?verifyServerCertificate=false&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
-    username: root
+    username: gmyf
     password: "009014" #这里要加引号，不然会提示报错
     driver-class-name: com.mysql.cj.jdbc.Driver
     tomcat:
@@ -27,10 +34,22 @@ spring:
       initial-size: 5
 mybatis:
   mapper-locations: classpath*:mappers/**/*.xml
-  type-aliases-package: com.light.springboot
+  type-aliases-package: com.light.springboot.dao
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 logging:
   level:
     com.light.springboot: debug
+server:
+  undertow:
+    accesslog:
+      dir: /data/log
+      enabled: false
+      pattern: access_log
+      suffix: log
+    max-http-post-size: 20
+    io-threads: 4
+    worker-threads: 20
+    buffer-size: 1024
+    direct-buffers: true

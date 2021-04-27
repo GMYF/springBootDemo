@@ -1,26 +1,25 @@
 package com.light.springboot.dao;
 
-import com.light.springboot.domain.user.User;
 import java.util.List;
+
+import com.light.springboot.domain.user.User;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserDao {
+public interface UserMapper {
     int deleteByPrimaryKey(@Param("host") String host, @Param("user") String user);
 
     int insert(User record);
 
-    /**
-     * 用户登录
-     * @param name
-     * @param word
-     */
-    User login(@Param("userName")String name,@Param("passWord") String word);
-    User findById(@Param("id") int id);
+    User selectByPrimaryKey(@Param("host") String host, @Param("user") String user);
 
     List<User> selectAll();
 
     int updateByPrimaryKey(User record);
+
+    User findById(@Param("id") int id);
+
+    User login(@Param("userName")String name,@Param("passWord") String word);
+
 }

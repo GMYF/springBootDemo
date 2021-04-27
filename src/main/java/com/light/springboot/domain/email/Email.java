@@ -1,5 +1,6 @@
 package com.light.springboot.domain.email;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.sql.Date;
  * @version 1.0
  * @date 2019/10/29 17:11
  */
+@Data
 public class Email {
     @Setter
     @Getter

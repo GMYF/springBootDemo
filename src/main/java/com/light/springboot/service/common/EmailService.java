@@ -1,6 +1,6 @@
 package com.light.springboot.service.common;
 
-import com.light.springboot.dao.EmailDao;
+import com.light.springboot.dao.EmailMapper;
 import com.light.springboot.domain.email.Email;
 import com.light.springboot.domain.email.EmailConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class EmailService {
     @Autowired
-    private EmailDao emailDao;
+    private EmailMapper emailDao;
 
     public void saveEmailMsg(Email email) {
         emailDao.saveMsg(email);

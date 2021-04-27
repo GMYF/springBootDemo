@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.light.springboot.dao.EmailDao">
-  <resultMap id="EmailMap" type="Email">
+<mapper namespace="com.light.springboot.dao.EmailMapper">
+  <resultMap id="EmailMap" type="com.light.springboot.domain.email.Email">
     <result column="id" jdbcType="CHAR" property="id" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
     <result column="receiver" jdbcType="CHAR" property="receiver" />
@@ -10,7 +10,7 @@
     <result column="content" jdbcType="CHAR" property="content" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <!-- 多对一或者一对一集合映射 , property对应映射实体pojo的属性值, javaType对应的是该pojo对象-->
-    <association property="emailConfig" javaType="EmailConfig">
+    <association property="emailConfig" javaType="com.light.springboot.domain.email.EmailConfig">
       <result column="sender" property="sender" jdbcType="CHAR"/>
       <result column="host" property="host" jdbcType="CHAR"/>
       <result column="PASSWORD" property="passWord" jdbcType="CHAR"/>
@@ -18,7 +18,7 @@
 <!--    <collection property="emailConfig" ofType="EmailConfig" />-->
   </resultMap>
 
-  <insert id="saveMsg" parameterType="Email">
+  <insert id="saveMsg" parameterType="com.light.springboot.domain.email.Email">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -29,7 +29,7 @@
       )
   </insert>
 
-  <resultMap id="EmailConfigMap" type="EmailConfig">
+  <resultMap id="EmailConfigMap" type="com.light.springboot.domain.email.EmailConfig">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="HOST" jdbcType="CHAR" property="host" />
     <result column="sender" jdbcType="CHAR" property="sender" />
@@ -55,7 +55,7 @@
     select a.id , <include refid="selectEmail"/> from msg_push a left join msg_config b on a.config_id=b.id  where a.STATUS=0;
   </select>
 
-  <update id="updateMsgStatus" parameterType="Email" >
+  <update id="updateMsgStatus" parameterType="com.light.springboot.domain.email.Email" >
     update msg_push set STATUS= 1 where id= #{id,jdbcType=INTEGER}
   </update>
 </mapper>

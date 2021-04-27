@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.light.springboot.dao.UserDao">
-
-    <insert id="insert" parameterType="User">
+<mapper namespace="com.light.springboot.dao.UserMapper">
+    <insert id="insert" parameterType="com.light.springboot.domain.user.User">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -13,7 +12,7 @@
     select id, `name`, phone
     from user
   </select>
-    <resultMap id="UserMap" type="User">
+    <resultMap id="UserMap" type="com.light.springboot.domain.user.User">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="phone" property="phone"/>

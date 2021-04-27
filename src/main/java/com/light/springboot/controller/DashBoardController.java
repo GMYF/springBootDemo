@@ -11,7 +11,6 @@ public class DashBoardController {
 
     @GetMapping("/index")
     public String directPage() {
-        System.out.println(1 / 0);
         return "index";
     }
 }
